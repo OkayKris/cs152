@@ -31,7 +31,7 @@ BADUNDER	[a-zA-Z]+[a-zA-Z_0-9]*_+
 "for"			{printf("FOR\n"); currPos += yyleng;}
 "beginloop"		{printf("BEGINLOOP\n"); currPos += yyleng;}
 "endloop"		{printf("ENDLOOP\n"); currPos += yyleng;}
-"continue"		{printf("CONTINUE\n"); currPos += yyleng;}
+"break"		{printf("BREAK\n"); currPos += yyleng;}
 "read"			{printf("READ\n"); currPos += yyleng;}
 "write"			{printf("WRITE\n"); currPos += yyleng;}
 "and"			{printf("AND\n"); currPos += yyleng;}
@@ -61,13 +61,7 @@ BADUNDER	[a-zA-Z]+[a-zA-Z_0-9]*_+
 ">="		{printf("GTE\n"); currPos += yyleng;}
 "."     {printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);}
 "?"     {printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);}
-"~"			{printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);}
-"!"			{printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);}
-"@"			{printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);}
-"$"			{printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);}
-"^"			{printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);}
-"&"			{printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);}
-"|"			{printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);}
+
 
 {BADDIG}+		{printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", currLine, currPos, yytext); exit(0);}
 {BADUNDER}+		{printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", currLine, currPos, yytext); exit(0);}
