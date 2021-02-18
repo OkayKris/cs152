@@ -28,7 +28,6 @@ BADUNDER	[a-zA-Z]+[a-zA-Z_0-9]*_+
 "else"			{printf("ELSE\n"); currPos += yyleng;}
 "while"			{printf("WHILE\n"); currPos += yyleng;}
 "do"			{printf("DO\n"); currPos += yyleng;}
-"for"			{printf("FOR\n"); currPos += yyleng;}
 "beginloop"		{printf("BEGINLOOP\n"); currPos += yyleng;}
 "endloop"		{printf("ENDLOOP\n"); currPos += yyleng;}
 "break"		{printf("BREAK\n"); currPos += yyleng;}
