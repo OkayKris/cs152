@@ -48,7 +48,7 @@ BADUNDER	[a-zA-Z]+[a-zA-Z_0-9]*_+
 ")"			{currPos += yyleng; return R_PAREN;}
 "["			{currPos += yyleng; return L_SQUARE_BRACKET;}
 "]"			{currPos += yyleng; return R_SQUARE_BRACKET;}
-":="		{currPos += yylend; return ASSIGN;}
+":="		{currPos += yyleng; return ASSIGN;}
 "-"			{currPos += yyleng; return SUB;}
 "+"			{currPos += yyleng; return ADD;}
 "*"			{currPos += yyleng; return MULT;}
@@ -66,8 +66,8 @@ BADUNDER	[a-zA-Z]+[a-zA-Z_0-9]*_+
 
 {BADDIG}+		{printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", currLine, currPos, yytext); exit(0);}
 {BADUNDER}+		{printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", currLine, currPos, yytext); exit(0);}
-{VAR}+			{yylval.ident=strdup(yytext); currPos += yyleng; return IDENT;}
-{DIGIT}+		{yylval.num=atoi(yytext); currPos += yyleng; return NUMBER;}
+{VAR}+			{yylval.identName=strdup(yytext); currPos += yyleng; return IDENT;}
+{DIGIT}+		{yylval.numValue=atoi(yytext); currPos += yyleng; return NUMBER;}
 {COMMENT}		{currLine++; currPos = 1;}
 [ \t]+      {/* ignore spaces */ currPos += yyleng;}
 "\n"        {currLine++; currPos = 1;}

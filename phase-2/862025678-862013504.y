@@ -73,7 +73,7 @@ void yyerror(char * msg);
 %%
 
 Ident:      IDENT
-            {printf("Ident -> IDENT %s \n", yylval.ident);}
+            {printf("Ident -> IDENT %s \n", yylval.identName);}
 ;
 
 Identifiers:    Ident
