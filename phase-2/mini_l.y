@@ -1,21 +1,22 @@
 //C Declarations here
 %{
+#define YY_NO_UNPUT
 #include <stdio.h>
 #include <stdlib.h>
-void yyerror(const char* msg);
+void yyerror(char * s);
 %}
 
 // Bison Declarations below
 
 %union{
-    char* identName;
-    int numValue;
+    char* ident;
+    int num;
 }
 
 %start Program
 
-%token <identName> IDENT
-%token <numValue> NUMBER
+%token <ident> IDENT
+%token <num> NUMBER
 
 %token FUNCTION
 %token BEGIN_PARAMS
@@ -72,7 +73,7 @@ void yyerror(const char* msg);
 %%
 
 Ident:      IDENT
-            {printf("Ident -> IDENT %s \n", $1);}
+            {printf("Ident -> IDENT %s \n", yylval.ident);}
 ;
 
 Identifiers:    Ident
@@ -136,7 +137,7 @@ Vars:           Var
 ;
 
 Var:            Ident
-                {printf("Var -> Ident\n")}
+                {printf("Var -> Ident \n");}
                 | Ident L_SQUARE_BRACKET Expression R_SQUARE_BRACKET
                 {printf("Ident L_SQUARE BRACKET Expression R_SQUARE BRACKET\n");}
 ;
@@ -205,11 +206,11 @@ Term:           Var
                 {printf("Term -> Var\n");}
                 | SUB Var
                 {printf("Term -> SUB Var\n");}
-                NUMBER
+                | NUMBER
                 {printf("Term -> NUMBER %d\n", $1);}
                 | SUB NUMBER
                 {printf("Term -> SUB NUMBER %d\n", $2);}
-                L_PAREN Expression R_PAREN
+                | L_PAREN Expression R_PAREN
                 {printf("Term -> L_PAREN Expression R_PAREN\n");}
                 | SUB L_PAREN Expression R_PAREN
                 {printf("Term -> SUB L_PAREN Expression R_PAREN\n");}
@@ -227,14 +228,10 @@ Expressions:    %empty
 
 %%
 // Need to add more error cases here
-void yyerror(char const* msg) {
-    extern int lineNumber;
+void yyerror(char * s) {
+    extern int currLine;
     extern char* yytext;
 
-    printf("Syntax error at line %d: %s at symbol \"%s\"", lineNumber, s, yytext);
-    exit(1;)
-}
-
-int main(int argc, char ** argv) {
-   yyparse();
+    printf("Syntax error at line %d: %s at symbol \"%s\"\n", currLine, s, yytext);
+    exit(1);
 }
