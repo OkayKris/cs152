@@ -1,0 +1,16 @@
+function test1;
+beginparams
+endparams
+beginlocals
+2n : integer;
+endlocals
+beginbody
+endbody
+function test2;
+beginparams
+endparams
+beginlocals
+n_ : integer;
+endlocals
+beginprogram
+endprogram
