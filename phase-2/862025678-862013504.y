@@ -3,20 +3,20 @@
 #define YY_NO_UNPUT
 #include <stdio.h>
 #include <stdlib.h>
-void yyerror(char * s);
+void yyerror(char * msg);
 %}
 
 // Bison Declarations below
 
 %union{
-    char* ident;
-    int num;
+    char* identName;
+    int numValue;
 }
 
 %start Program
 
-%token <ident> IDENT
-%token <num> NUMBER
+%token <identName> IDENT
+%token <numValue> NUMBER
 
 %token FUNCTION
 %token BEGIN_PARAMS
@@ -228,10 +228,10 @@ Expressions:    %empty
 
 %%
 // Need to add more error cases here
-void yyerror(char * s) {
+void yyerror(char * msg) {
     extern int currLine;
     extern char* yytext;
 
-    printf("Syntax error at line %d: %s at symbol \"%s\"\n", currLine, s, yytext);
+    printf("Syntax error at line %d: %s at symbol \"%s\"\n", currLine, msg, yytext);
     exit(1);
 }
