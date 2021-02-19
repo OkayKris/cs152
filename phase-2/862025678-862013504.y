@@ -80,7 +80,7 @@ Identifiers:    Ident
                 {printf("Identifiers -> Ident\n");}
                 | Ident COMMA Identifiers
                 {printf("Identifiers -> Ident COMMA Identifiers\n");}
-                | Ident error
+                | Ident error '\n'
 ;
 
 Program:    %empty
