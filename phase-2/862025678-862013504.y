@@ -200,6 +200,8 @@ Expression:     multExp
                 {printf("Expression -> multExp ADD Expression\n");}
                 | multExp SUB Expression
                 {printf("Expression -> multExp SUB Expression\n");}
+                | error
+                {toNewline(); yyerrok; yyclearin; }
 ;
 
 multExp:        Term
@@ -226,8 +228,6 @@ Term:           Var
                 {printf("Term -> SUB L_PAREN Expression R_PAREN\n");}
                 | Ident L_PAREN Expressions R_PAREN
                 {printf("Term -> Ident L_PARENT Expression R_PAREN\n");}
-                | error
-                {toNewline(); yyerrok; yyclearin; }
 ;
 
 Expressions:    %empty
@@ -236,8 +236,6 @@ Expressions:    %empty
                 {printf("Expressions -> Expression\n");}
                 | Expression COMMA Expressions
                 {printf("Expressions -> Expression COMMA Expressions\n");}
-                | error
-                {toNewline(); yyerrok; yyclearin; }
 ;
 
 %%
