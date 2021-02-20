@@ -91,9 +91,7 @@ Program:    %empty
             | Function Program
             {printf("Program -> Function Program\n");}
                 | error
-                {toNewline(); 
-                | error
-                {toNewline(); yyerrok; yyclearin; }yyerrok; yyclearin; }
+                {toNewline(); yyerrok; yyclearin; }
 ;
 
 Function:   FUNCTION Ident SEMICOLON BEGIN_PARAMS Declarations END_PARAMS BEGIN_LOCALS Declarations END_LOCALS BEGIN_BODY Statements END_BODY
