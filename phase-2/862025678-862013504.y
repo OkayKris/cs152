@@ -200,8 +200,6 @@ Expression:     multExp
                 {printf("Expression -> multExp ADD Expression\n");}
                 | multExp SUB Expression
                 {printf("Expression -> multExp SUB Expression\n");}
-                | error
-                {toNewline(); yyerrok; yyclearin; }
 ;
 
 multExp:        Term
