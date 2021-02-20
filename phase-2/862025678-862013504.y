@@ -176,8 +176,6 @@ rExp:           Expression Comp Expression
                 {printf("rExp -> FALSE\n");}
                 | L_PAREN bool_exp R_PAREN
                 {printf("rExp -> L_PAREN bool_exp R_PAREN\n");}
-                | error
-                {toNewline(); yyerrok; yyclearin; }
 ;
 
 Comp:           EQ
