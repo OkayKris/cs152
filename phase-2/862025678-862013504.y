@@ -81,7 +81,7 @@ Identifiers:    Ident
                 | Ident COMMA Identifiers
                 {printf("Identifiers -> Ident COMMA Identifiers\n");}
                 | Ident error '\n'
-                {yyerrok;}
+                {yyerrok; yyclearin;}
 ;
 
 Program:    %empty
