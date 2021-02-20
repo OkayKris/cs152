@@ -90,8 +90,6 @@ Program:    %empty
             {printf("Program -> epsilon\n");}
             | Function Program
             {printf("Program -> Function Program\n");}
-                | error
-                {toNewline(); yyerrok; yyclearin; }
 ;
 
 Function:   FUNCTION Ident SEMICOLON BEGIN_PARAMS Declarations END_PARAMS BEGIN_LOCALS Declarations END_LOCALS BEGIN_BODY Statements END_BODY
@@ -108,6 +106,8 @@ Declaration:    Identifiers COLON INTEGER
                 {printf("Declaration -> Identifiers COLON INTEGER\n");}
                 | Identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER R_SQUARE_BRACKET OF INTEGER
                 {printf("Declaration -> Identifiers COLON ARRAY L_SQUARE_BRACKET NUMBER %d R_SQUARE_BRACKET OF INTEGER\n");}
+                | error
+                {toNewline(); yyerrok; yyclearin; }
 ;
 
 Statements:     Statement SEMICOLON Statements
