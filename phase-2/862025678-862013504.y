@@ -234,7 +234,6 @@ void yyerror(char * msg) {
     extern char* yytext;
 
     printf("Syntax error at line %d: %s at symbol \"%s\"\n", currLine, msg, yytext);
-    currLine ++;
     yyparse();
     // exit(1);
 }
