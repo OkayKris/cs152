@@ -78,6 +78,8 @@ void toNewline(void);
 
 Ident:      IDENT
             {printf("Ident -> IDENT %s \n", yylval.identName);}
+                | error
+                {toNewline(); yyerrok; yyclearin; }
 ;
 
 Identifiers:    Ident
@@ -174,6 +176,8 @@ rExp:           Expression Comp Expression
                 {printf("rExp -> FALSE\n");}
                 | L_PAREN bool_exp R_PAREN
                 {printf("rExp -> L_PAREN bool_exp R_PAREN\n");}
+                | error
+                {toNewline(); yyerrok; yyclearin; }
 ;
 
 Comp:           EQ
@@ -222,6 +226,8 @@ Term:           Var
                 {printf("Term -> SUB L_PAREN Expression R_PAREN\n");}
                 | Ident L_PAREN Expressions R_PAREN
                 {printf("Term -> Ident L_PARENT Expression R_PAREN\n");}
+                | error
+                {toNewline(); yyerrok; yyclearin; }
 ;
 
 Expressions:    %empty
@@ -230,6 +236,8 @@ Expressions:    %empty
                 {printf("Expressions -> Expression\n");}
                 | Expression COMMA Expressions
                 {printf("Expressions -> Expression COMMA Expressions\n");}
+                | error
+                {toNewline(); yyerrok; yyclearin; }
 ;
 
 %%
