@@ -80,7 +80,8 @@ Identifiers:    Ident
                 {printf("Identifiers -> Ident\n");}
                 | Ident COMMA Identifiers
                 {printf("Identifiers -> Ident COMMA Identifiers\n");}
-                | Ident error ';'
+                | Ident error '\n'
+                {yyerrok;}
 ;
 
 Program:    %empty
@@ -234,6 +235,6 @@ void yyerror(char * msg) {
     extern char* yytext;
 
     printf("Syntax error at line %d: %s at symbol \"%s\"\n", currLine, msg, yytext);
-    yyparse();
+    // yyparse();
     // exit(1);
 }
