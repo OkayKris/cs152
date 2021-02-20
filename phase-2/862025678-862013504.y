@@ -80,8 +80,6 @@ Identifiers:    Ident
                 {printf("Identifiers -> Ident\n");}
                 | Ident COMMA Identifiers
                 {printf("Identifiers -> Ident COMMA Identifiers\n");}
-                | Ident error '\n'
-                {yyerrok; yyclearin;}
 ;
 
 Program:    %empty
@@ -130,6 +128,8 @@ Statement:      Var ASSIGN Expression
                 {printf("Statement -> BREAK\n");}
                 | RETURN Expression
                 {printf("Statement -> RETURN Expression\n");}
+                | error '\n'
+                {yyerrok; yyclearin;}
 ;
                 
 Vars:           Var
