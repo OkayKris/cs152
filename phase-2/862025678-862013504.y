@@ -13,7 +13,7 @@ void yyerror(char * msg);
     int numValue;
 }
 
-%define parse.error detailed
+%define parse.error verbose
 %define parse.lac full
 
 %start Program
