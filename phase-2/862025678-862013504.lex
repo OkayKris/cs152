@@ -61,12 +61,12 @@ BADUNDER	[a-zA-Z]+[a-zA-Z_0-9]*_+
 ">"			   {currPos += yyleng; return GT;}
 "<="		      {currPos += yyleng; return LTE;}
 ">="		      {currPos += yyleng; return GTE;}
-"."            {printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);}
-"?"            {printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext); exit(0);}
+"."            {printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext);}
+"?"            {printf("Error at line %d, column %d: unrecognized symbol \"%s\"\n", currLine, currPos, yytext);}
 
 
-{BADDIG}+		{printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", currLine, currPos, yytext); exit(0);}
-{BADUNDER}+		{printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", currLine, currPos, yytext); exit(0);}
+{BADDIG}+		{printf("Error at line %d, column %d: identifier \"%s\" must begin with a letter\n", currLine, currPos, yytext);}
+{BADUNDER}+		{printf("Error at line %d, column %d: identifier \"%s\" cannot end with an underscore\n", currLine, currPos, yytext);}
 {VAR}+			{yylval.identName=strdup(yytext); currPos += yyleng; return IDENT;}
 {DIGIT}+		   {yylval.numValue=atoi(yytext); currPos += yyleng; return NUMBER;}
 {COMMENT}		{currLine++; currPos = 1;}
