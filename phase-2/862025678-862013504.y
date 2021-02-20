@@ -233,7 +233,7 @@ Expressions:    %empty
 
 %%
 // Need to add more error cases here
-void yyerror(char * msg) {
+void yyerror(const char * msg) {
     extern int currLine;
     extern char* yytext;
 
