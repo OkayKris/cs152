@@ -3,7 +3,7 @@
 #define YY_NO_UNPUT
 #include <stdio.h>
 #include <stdlib.h>
-void yyerror(char * msg);
+void yyerror(const char * msg);
 %}
 
 // Bison Declarations below
