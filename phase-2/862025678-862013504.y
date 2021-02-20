@@ -87,7 +87,7 @@ Program:    %empty
             | Function Program
             {printf("Program -> Function Program\n");}
             | error '\n'
-            {yyerrok; yyclearin; YYACCCEPT;}
+            {yyerrok; yyclearin; YYACCEPT;}
 ;
 
 Function:   FUNCTION Ident SEMICOLON BEGIN_PARAMS Declarations END_PARAMS BEGIN_LOCALS Declarations END_LOCALS BEGIN_BODY Statements END_BODY
