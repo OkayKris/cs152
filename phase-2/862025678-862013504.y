@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 void yyerror(const char * msg);
+void toNewline(void);
 %}
 
 // Bison Declarations below
@@ -89,8 +90,6 @@ Program:    %empty
             {printf("Program -> epsilon\n");}
             | Function Program
             {printf("Program -> Function Program\n");}
-            | error '\n'
-            {yyerrok; yyclearin; YYACCEPT;}
 ;
 
 Function:   FUNCTION Ident SEMICOLON BEGIN_PARAMS Declarations END_PARAMS BEGIN_LOCALS Declarations END_LOCALS BEGIN_BODY Statements END_BODY
@@ -133,6 +132,8 @@ Statement:      Var ASSIGN Expression
                 {printf("Statement -> BREAK\n");}
                 | RETURN Expression
                 {printf("Statement -> RETURN Expression\n");}
+                | error '\n'
+                {yyerrok; yyclearin; toNewline;}
 ;
                 
 Vars:           Var
@@ -239,4 +240,10 @@ void yyerror(const char * msg) {
 
     printf("Syntax error at line %d: %s at symbol \"%s\"\n", currLine, msg, yytext);
     // yyparse();
+}
+
+void toNewline(void) {
+    int n;
+    while ((n = getchar()) != EOF && n != '\n')
+        ;
 }
