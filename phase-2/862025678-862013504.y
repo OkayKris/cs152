@@ -132,7 +132,7 @@ Statement:      Var ASSIGN Expression
                 {printf("Statement -> BREAK\n");}
                 | RETURN Expression
                 {printf("Statement -> RETURN Expression\n");}
-                | error '\n'
+                | error
                 {toNewline(); yyerrok; yyclearin; }
 ;
                 
