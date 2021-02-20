@@ -86,6 +86,8 @@ Program:    %empty
             {printf("Program -> epsilon\n");}
             | Function Program
             {printf("Program -> Function Program\n");}
+            | error '\n'
+            {yyerrok; yyclearin; YYACCCEPT;}
 ;
 
 Function:   FUNCTION Ident SEMICOLON BEGIN_PARAMS Declarations END_PARAMS BEGIN_LOCALS Declarations END_LOCALS BEGIN_BODY Statements END_BODY
@@ -128,8 +130,6 @@ Statement:      Var ASSIGN Expression
                 {printf("Statement -> BREAK\n");}
                 | RETURN Expression
                 {printf("Statement -> RETURN Expression\n");}
-                | error '\n'
-                {resynch(); yyerrok; yyclearin;}
 ;
                 
 Vars:           Var
@@ -236,5 +236,4 @@ void yyerror(char * msg) {
 
     printf("Syntax error at line %d: %s at symbol \"%s\"\n", currLine, msg, yytext);
     // yyparse();
-    // exit(1);
 }
