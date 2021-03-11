@@ -1,4 +1,17 @@
 //C Declarations here
+%code requires{
+  #include <string>
+  using namespace std;
+  
+  struct nonTerminal {
+    string code;
+    string index;
+    string ret_name;
+    string var;
+    bool isArray;
+  };
+}
+
 %{
 #define YY_NO_UNPUT
 #include <stdio.h>
@@ -6,12 +19,15 @@
 #include <map>
 #include <string.h>
 #include <vector>
+#include <iostream>
+#include <sstream>
 
 using namespace std; 
 extern int currPos;
 extern int currLine;
 void yyerror(const char * msg);
 void toNewline(void);
+int yylex(void);
 string newTemp();
 string newLabel();
 
@@ -25,15 +41,7 @@ map<string, int> functions;
 %union{
     char* identName;
     int numValue;
-    struct expr {
-      char *index;
-      char *code;
-      bool isArray;
-    } expr;
-    
-    struct stmt {
-      char *code;
-    } stmt;
+    nonTerminal* nonTerm;
 }
 
 %define parse.error verbose
@@ -44,9 +52,9 @@ map<string, int> functions;
 %token <identName> IDENT
 %token <numValue> NUMBER
 
-%type <expr> Ident Identifiers Declarations Declaration Var Vars bool_exp
-%type <expr> rAndExp rExpN rExp Comp Expression multExp Term Expresssions
-%type <stmt> Statements Statement
+%type <nonTerm> Ident Identifiers Declarations Declaration Var Vars bool_exp
+%type <nonTerm> rAndExp rExpN rExp Statements Statement Expression multExp Term Expressions
+%type <identName> Comp
 
 %token FUNCTION
 %token BEGIN_PARAMS
@@ -147,7 +155,18 @@ Statement:      Var ASSIGN Expression
                 | IF bool_exp THEN Statements ENDIF
                 {printf("Statement -> IF bool_exp THEN Statements ENDIF\n");}
                 | IF bool_exp THEN Statements ELSE Statements ENDIF
-                {printf("Statement -> IF bool_exp THEN Statements ELSE Statements ENDIF\n");}
+                {
+                  string label0 = newLabel();
+                  string label1 = newLabel();
+                  stringstream ss;
+                  ss << $2->code << endl;
+                  ss << "?:= " << label0 << ", " << $2->ret_name << endl;
+                  ss << ":=" << label1 << endl;
+                  ss << ": " << label0 << endl;
+                  ss << $4->code << endl;
+                  ss << ": " << label1 ;
+                  $$->code = ss.str();
+                }
                 | WHILE bool_exp BEGINLOOP Statements ENDLOOP
                 {printf("Statement -> WHILE bool_exp BEGINLOOP Statements ENDLOOP\n");}
                 | DO BEGINLOOP Statements ENDLOOP WHILE bool_exp
@@ -278,12 +297,12 @@ void toNewline(void) {
 
 string newTemp() {
   static int num = 0;
-  string temp ="_t" + to_string(num++);
+  string temp ="__temp__" + to_string(num++);
   return temp;
 }
 
 string newLabel(){
   static int num = 0;
-  string temp = 'L' + to_string(num++);
+  string temp = "__label__" + to_string(num++);
   return temp;
 }
