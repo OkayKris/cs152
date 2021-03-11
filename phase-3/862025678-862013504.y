@@ -3,8 +3,21 @@
 #define YY_NO_UNPUT
 #include <stdio.h>
 #include <stdlib.h>
+#include <map>
+#include <string.h>
+#include <vector>
+
+using namespace std; 
+extern int currPos;
+extern int currLine;
 void yyerror(const char * msg);
 void toNewline(void);
+string newTemp();
+string newLabel();
+
+map<string, int> variables;
+map<string, int> functions;
+
 %}
 
 // Bison Declarations below
@@ -12,6 +25,15 @@ void toNewline(void);
 %union{
     char* identName;
     int numValue;
+    struct expr {
+      char *index;
+      char *code;
+      bool isArray;
+    } expr;
+    
+    struct stmt {
+      char *code;
+    } stmt;
 }
 
 %define parse.error verbose
@@ -21,6 +43,10 @@ void toNewline(void);
 
 %token <identName> IDENT
 %token <numValue> NUMBER
+
+%type <expr> Ident Identifiers Declarations Declaration Var Vars bool_exp
+%type <expr> rAndExp rExpN rExp Comp Expression multExp Term Expresssions
+%type <stmt> Statements Statement
 
 %token FUNCTION
 %token BEGIN_PARAMS
@@ -248,4 +274,16 @@ void toNewline(void) {
     int n;
     while ((n = getchar()) != EOF && n != '\n')
         ;
+}
+
+string newTemp() {
+  static int num = 0;
+  string temp ="_t" + to_string(num++);
+  return temp;
+}
+
+string newLabel(){
+  static int num = 0;
+  string temp = 'L' + to_string(num++);
+  return temp;
 }
