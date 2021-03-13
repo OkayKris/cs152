@@ -132,14 +132,14 @@ Identifiers:    Ident
                   $$ = new nonTerminal();
                   stringstream s;
                   s << "_" << $1->code;
-                  $$->code s.str();
+                  $$->code = s.str();
                 }
                 | Ident COMMA Identifiers
                 {
                   $$ = new nonTerminal();
                   stringstream s;
                   s << "_" << $1->code << "," << $3->code;
-                  $$->code s.str();
+                  $$->code = s.str();
                 }
 ;
 
@@ -276,7 +276,7 @@ Declaration:    Identifiers COLON INTEGER
                   for (unsigned i = 0; i < $1->code.length(); ++i) {
                     if ($1->code.at(i) == ',') {
                       s << ". " << currVar << endl;
-                      addLocalVar(currVar);
+                      newLocalVar(currVar);
                       currVar = "";
                     }
                     else {
@@ -287,7 +287,7 @@ Declaration:    Identifiers COLON INTEGER
 
                   if (currVar.length() > 0) {
                     s << ". " << currVar;
-                    addLocalVar(currVar);
+                    newLocalVar(currVar);
                   }
                   
                   $$->code = s.str();
@@ -308,7 +308,7 @@ Declaration:    Identifiers COLON INTEGER
                   for (unsigned i = 0; i < $1->code.length(); ++i) {
                     if ($1->code.at(i) == ',') {
                       s << ".[] " << currVar << ", " << to_string($5) << endl;
-                      addLocalVar(currVar);
+                      newLocalVar(currVar);
                       currVar = "";
                     }
                     else {
@@ -318,7 +318,7 @@ Declaration:    Identifiers COLON INTEGER
 
                   if (currVar.length() > 0 ) {
                     s << ".[] " << currVar << ", " << to_string($5);
-                    addLocalVar(currVar);
+                    newLocalVar(currVar);
                   }
                   
                   $$->code = s.str();
@@ -330,7 +330,7 @@ Declaration:    Identifiers COLON INTEGER
 
 Statements:     Statement SEMICOLON Statements
                 {
-                  $$ = new nonTerminal()
+                  $$ = new nonTerminal();
                   stringstream s;
                   s << $1->code << endl << $3->code;
                   $$->code = s.str();
@@ -380,7 +380,7 @@ Statement:      Var ASSIGN Expression
                   s << ":= " << isFalse << endl;
                   s << ": " << isTrue << endl;
                   s << $4->code << endl;
-                  s << ": " << iFalse;
+                  s << ": " << isFalse;
 
                   $$->code = s.str();
                   // $$->ret_name = ???
@@ -482,7 +482,7 @@ Statement:      Var ASSIGN Expression
                 | BREAK // need to add break cases
                 {
                   $$ = new nonTerminal();
-                  $$->code = "break"
+                  $$->code = "break";
                 }
                 | RETURN Expression
                 {
@@ -507,10 +507,10 @@ Statement:      Var ASSIGN Expression
                   s << "ret " << op1;
                   
                   $$->code = s.str();
-                  $$->ret_name = op1
+                  $$->ret_name = op1;
                 }
-                | error
-                {toNewline(); yyerrok; yyclearin; }
+                // | error
+                // {toNewline(); yyerrok; yyclearin; }
 ;
                 
 Vars:           Var
@@ -586,7 +586,7 @@ bool_exp:       rAndExp
                 {
                   $$ = new nonTerminal();
                   $$->code = $1->code;
-                  $$->ret_name = $1->ret_name
+                  $$->ret_name = $1->ret_name;
                 }
                 | rAndExp OR bool_exp
                 {
@@ -620,7 +620,7 @@ rAndExp:        rExpN
                   s << "&& " << retName << ", " << $1->ret_name << ", " << $3->ret_name;
 
                   $$->code = s.str();
-                  $$->ret_name = retName
+                  $$->ret_name = retName;
                 }
 ;
 
@@ -725,7 +725,7 @@ Expression:     multExp
                 }
                 | multExp ADD Expression
                 {
-                  $$ new nonTerminal();
+                  $$ = new nonTerminal();
                   string addRet = newTemp();
                   stringstream s;
                   string op1;
@@ -753,7 +753,7 @@ Expression:     multExp
                 }
                 | multExp SUB Expression
                 {
-                  $$ new nonTerminal();
+                  $$ new = nonTerminal();
                   string subRet = newTemp();
                   stringstream s;
                   string op1;
@@ -785,7 +785,7 @@ multExp:        Term
                 {
                   $$ = new nonTerminal();
                   $$->code = $1->code;
-                  $$->ret_name = ret_name;
+                  $$->ret_name = $1->ret_name;
                 }
                 | Term MULT multExp
                 {
@@ -993,10 +993,10 @@ InnerTerm:      Var
                 {
                   $$ = new nonTerminal();
                   $$->code = $1->code;
-                  $$->ret_name = "var"
+                  $$->ret_name = "var";
                   $$->isArray = $1->isArray;
                   $$->var = $1->var;
-                  $$->index = $1->index
+                  $$->index = $1->index;
                 }
                 | NUMBER
                 {
@@ -1142,7 +1142,7 @@ void checkDeclared(const string& var){
   yyerror(err);
 }
 
-void newFunction(const string&){
+void newFunction(const string& func){
   for (unsigned i = 0; i < functionNames.size(); ++i) {
     if (functionNames.at(i) == func) {
       string errString = "function \"" + func + "\" is multiply-defined";
@@ -1152,7 +1152,7 @@ void newFunction(const string&){
   functionNames.push_back(func);
 }
 
-void checkDeclaredFunc(const string &) {
+void checkDeclaredFunc(const string & func) {
   for (unsigned i = 0; i < functionNames.size(); ++i) {
     if (functionNames.at(i) == func) {
       return;

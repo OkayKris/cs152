@@ -80,7 +80,7 @@ BADUNDER	[a-zA-Z]+[a-zA-Z_0-9]*_+
 int main(int argc, char ** argv) {
    if (argc > 1){
       yyin = fopen(argv[1], "r");
-      if (yying == NULL) {
+      if (yyin == NULL) {
          yyin = stdin;
       }
    }
