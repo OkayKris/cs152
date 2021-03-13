@@ -42,8 +42,8 @@ void checkDeclaredFunc(const string &);
 bool mCheck = false;
 extern FILE* yyin;
 
-map<string> variableNames;
-map<string> functionNames;
+vector<string> variableNames;
+vector<string> functionNames;
 
 %}
 
