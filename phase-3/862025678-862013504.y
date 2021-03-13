@@ -26,7 +26,7 @@ using namespace std;
 extern int currPos;
 extern int currLine;
 int yyerror(string s);
-void toNewline(void);
+// void toNewline(void);
 int yylex(void);
 string newTemp();
 string newLabel();
@@ -324,8 +324,8 @@ Declaration:    Identifiers COLON INTEGER
                   $$->code = s.str();
                   $$->ret_name = $1->code;
                 }
-                | error
-                {toNewline(); yyerrok; yyclearin;}
+                // | error
+                // {toNewline(); yyerrok; yyclearin;}
 ;
 
 Statements:     Statement SEMICOLON Statements
