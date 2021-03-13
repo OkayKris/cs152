@@ -42,8 +42,8 @@ void checkDeclaredFunc(const string &);
 bool mCheck = false;
 extern FILE* yyin;
 
-map<string, int> variableNames;
-map<string, int> functionNames;
+map<string> variableNames;
+map<string> functionNames;
 
 %}
 
@@ -753,7 +753,7 @@ Expression:     multExp
                 }
                 | multExp SUB Expression
                 {
-                  $$ new = nonTerminal();
+                  $$ = new nonTerminal();
                   string subRet = newTemp();
                   stringstream s;
                   string op1;
