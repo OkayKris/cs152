@@ -25,7 +25,7 @@ using namespace std;
 
 extern int currPos;
 extern int currLine;
-void yyerror(string s);
+int yyerror(string s);
 void toNewline(void);
 int yylex(void);
 string newTemp();
