@@ -1,7 +1,10 @@
 %{   
-  #include <stdio.h>
-  #include "y.tab.h"
+   #include <stdio.h>
+   #include "y.tab.h"
+   using namespace std;
+   extern int yyerror(char *s);
    int currLine = 1, currPos = 1;
+   char * file;
 %}
 
 VAR	 	[a-zA-Z]+[a-zA-Z_0-9]*
@@ -75,6 +78,16 @@ BADUNDER	[a-zA-Z]+[a-zA-Z_0-9]*_+
 %%
 
 int main(int argc, char ** argv) {
+   if (argc > 1){
+      yyin = fopen(argv[1], "r");
+      if (yying == NULL) {
+         yyin = stdin;
+      }
+   }
+   else {
+      yyin = stdin;
+   }
+   
    yyparse();
    return 0;
 }

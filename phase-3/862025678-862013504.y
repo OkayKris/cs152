@@ -257,9 +257,9 @@ Declarations:   %empty
                   $$ = new nonTerminal();
                   stringstream s, slist;
 
-                  s << $1->code << endl << $2->code;
+                  s << $1->code << endl << $3->code;
 
-                  slist << $1->ret_name << "," << $2->ret_name;
+                  slist << $1->ret_name << "," << $3->ret_name;
 
                   $$->code = s.str();
                   $$->ret_name = slist.str();
@@ -332,7 +332,7 @@ Statements:     Statement SEMICOLON Statements
                 {
                   $$ = new nonTerminal()
                   stringstream s;
-                  s << $1->code << endl << $2->code;
+                  s << $1->code << endl << $3->code;
                   $$->code = s.str();
                 }
                 | Statement SEMICOLON
@@ -620,7 +620,7 @@ rAndExp:        rExpN
                   s << "&& " << retName << ", " << $1->ret_name << ", " << $3->ret_name;
 
                   $$->code = s.str();
-                  $->ret_name = retName
+                  $$->ret_name = retName
                 }
 ;
 
